@@ -3,7 +3,7 @@ import Sidebar from "../components/Sidebar";
 import { getMedicinesAPI, addMedicineAPI, updateMedicineAPI, deleteMedicineAPI } from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
-import { Plus, Search, Trash2, X, Pill, Pencil } from "lucide-react";
+import { Plus, Search, Trash2, X, Pill, Pencil, MapPin } from "lucide-react";
 
 const categories = [
   "Antibiotic", "Painkiller", "Antacid", "Vitamin",
@@ -11,10 +11,20 @@ const categories = [
 ];
 
 const emptyForm = {
-  name: "", genericName: "", category: "Painkiller",
-  manufacturer: "", price: "", stock: "",
-  lowStockThreshold: 10, expiryDate: "",
-  requiresPrescription: false, description: "",
+  name: "",
+  genericName: "",
+  category: "Painkiller",
+  manufacturer: "",
+  price: "",
+  stock: "",
+  lowStockThreshold: 10,
+  expiryDate: "",
+  requiresPrescription: false,
+  description: "",
+  location: {
+    row: "",
+    column: "",
+  },
 };
 
 const Medicines = () => {
@@ -53,6 +63,10 @@ const Medicines = () => {
       expiryDate: medicine.expiryDate?.split("T")[0] || "",
       requiresPrescription: medicine.requiresPrescription,
       description: medicine.description || "",
+      location: {
+        row: medicine.location?.row || "",
+        column: medicine.location?.column || "",
+      },
     });
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -101,6 +115,11 @@ const Medicines = () => {
     color: "#0f172a", outline: "none",
     fontFamily: "'DM Sans', sans-serif",
     boxSizing: "border-box", transition: "all 0.2s",
+  };
+
+  const labelStyle = {
+    fontSize: "0.75rem", fontWeight: 600,
+    color: "#374151", display: "block", marginBottom: "5px"
   };
 
   return (
@@ -152,6 +171,7 @@ const Medicines = () => {
             boxShadow: editingId ? "0 4px 20px rgba(37,99,235,0.1)" : "0 4px 20px rgba(0,0,0,0.06)",
             marginBottom: "24px",
           }}>
+            {/* Form Header */}
             <div style={{
               display: "flex", alignItems: "center",
               justifyContent: "space-between", marginBottom: "20px",
@@ -183,15 +203,16 @@ const Medicines = () => {
               </button>
             </div>
 
+            {/* FORM STARTS HERE */}
             <form onSubmit={handleSubmit}>
+
+              {/* Row 1 — Name, Generic, Category */}
               <div style={{
                 display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
                 gap: "14px", marginBottom: "14px",
               }}>
                 <div>
-                  <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "5px" }}>
-                    Medicine Name *
-                  </label>
+                  <label style={labelStyle}>Medicine Name *</label>
                   <input
                     placeholder="Paracetamol"
                     value={form.name}
@@ -202,9 +223,7 @@ const Medicines = () => {
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "5px" }}>
-                    Generic Name
-                  </label>
+                  <label style={labelStyle}>Generic Name</label>
                   <input
                     placeholder="Acetaminophen"
                     value={form.genericName}
@@ -215,9 +234,7 @@ const Medicines = () => {
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "5px" }}>
-                    Category *
-                  </label>
+                  <label style={labelStyle}>Category *</label>
                   <select
                     value={form.category}
                     onChange={e => setForm({ ...form, category: e.target.value })}
@@ -226,10 +243,15 @@ const Medicines = () => {
                     {categories.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
+              </div>
+
+              {/* Row 2 — Manufacturer, Price, Stock */}
+              <div style={{
+                display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "14px", marginBottom: "14px",
+              }}>
                 <div>
-                  <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "5px" }}>
-                    Manufacturer *
-                  </label>
+                  <label style={labelStyle}>Manufacturer *</label>
                   <input
                     placeholder="Square Pharma"
                     value={form.manufacturer}
@@ -240,9 +262,7 @@ const Medicines = () => {
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "5px" }}>
-                    Price (৳) *
-                  </label>
+                  <label style={labelStyle}>Price (৳) *</label>
                   <input
                     type="number" placeholder="10"
                     value={form.price}
@@ -253,9 +273,7 @@ const Medicines = () => {
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "5px" }}>
-                    Stock *
-                  </label>
+                  <label style={labelStyle}>Stock *</label>
                   <input
                     type="number" placeholder="100"
                     value={form.stock}
@@ -265,10 +283,15 @@ const Medicines = () => {
                     onBlur={e => { e.target.style.borderColor = "#e2e8f0"; e.target.style.background = "#f8fafc"; }}
                   />
                 </div>
+              </div>
+
+              {/* Row 3 — Low Stock, Expiry, Prescription */}
+              <div style={{
+                display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "14px", marginBottom: "14px",
+              }}>
                 <div>
-                  <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "5px" }}>
-                    Low Stock Alert
-                  </label>
+                  <label style={labelStyle}>Low Stock Alert</label>
                   <input
                     type="number" placeholder="10"
                     value={form.lowStockThreshold}
@@ -279,9 +302,7 @@ const Medicines = () => {
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "5px" }}>
-                    Expiry Date *
-                  </label>
+                  <label style={labelStyle}>Expiry Date *</label>
                   <input
                     type="date"
                     value={form.expiryDate}
@@ -304,6 +325,53 @@ const Medicines = () => {
                 </div>
               </div>
 
+              {/* Row 4 — Location (NEW) */}
+              <div style={{
+                background: "#f0f9ff",
+                border: "1px solid #bae6fd",
+                borderRadius: "12px",
+                padding: "16px",
+                marginBottom: "14px",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "12px" }}>
+                  <MapPin size={14} color="#0284c7" />
+                  <label style={{ fontSize: "0.75rem", fontWeight: 700, color: "#0284c7" }}>
+                    Shelf Location (helps pharmacist find medicine quickly)
+                  </label>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                  <div>
+                    <label style={{ ...labelStyle, color: "#0369a1" }}>Row (e.g. A, B, C)</label>
+                    <input
+                      placeholder="e.g. A"
+                      value={form.location?.row || ""}
+                      onChange={e => setForm({
+                        ...form,
+                        location: { ...form.location, row: e.target.value }
+                      })}
+                      style={inputStyle}
+                      onFocus={e => { e.target.style.borderColor = "#0284c7"; e.target.style.background = "white"; }}
+                      onBlur={e => { e.target.style.borderColor = "#e2e8f0"; e.target.style.background = "#f8fafc"; }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ ...labelStyle, color: "#0369a1" }}>Column (e.g. 1, 2, 3)</label>
+                    <input
+                      placeholder="e.g. 3"
+                      value={form.location?.column || ""}
+                      onChange={e => setForm({
+                        ...form,
+                        location: { ...form.location, column: e.target.value }
+                      })}
+                      style={inputStyle}
+                      onFocus={e => { e.target.style.borderColor = "#0284c7"; e.target.style.background = "white"; }}
+                      onBlur={e => { e.target.style.borderColor = "#e2e8f0"; e.target.style.background = "#f8fafc"; }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Description */}
               <textarea
                 placeholder="Description (optional)"
                 value={form.description}
@@ -313,6 +381,7 @@ const Medicines = () => {
                 onBlur={e => { e.target.style.borderColor = "#e2e8f0"; e.target.style.background = "#f8fafc"; }}
               />
 
+              {/* Buttons */}
               <div style={{ display: "flex", gap: "10px" }}>
                 <button type="submit" style={{
                   background: editingId
@@ -339,7 +408,10 @@ const Medicines = () => {
                   Cancel
                 </button>
               </div>
+
             </form>
+            {/* FORM ENDS HERE */}
+
           </div>
         )}
 
@@ -386,7 +458,7 @@ const Medicines = () => {
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ background: "#f8fafc", borderBottom: "2px solid #e2e8f0" }}>
-                {["Medicine", "Category", "Manufacturer", "Price", "Stock", "Expiry", "Type",
+                {["Medicine", "Category", "Manufacturer", "Price", "Stock", "Location", "Expiry", "Type",
                   user?.role === "admin" && "Actions"].filter(Boolean).map(h => (
                   <th key={h} style={{
                     textAlign: "left", padding: "13px 16px",
@@ -401,13 +473,13 @@ const Medicines = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="8" style={{ textAlign: "center", padding: "40px", color: "#94a3b8" }}>
+                  <td colSpan="9" style={{ textAlign: "center", padding: "40px", color: "#94a3b8" }}>
                     Loading...
                   </td>
                 </tr>
               ) : medicines.length === 0 ? (
                 <tr>
-                  <td colSpan="8" style={{ textAlign: "center", padding: "40px", color: "#94a3b8" }}>
+                  <td colSpan="9" style={{ textAlign: "center", padding: "40px", color: "#94a3b8" }}>
                     <Pill size={32} color="#e2e8f0" style={{ margin: "0 auto 10px", display: "block" }} />
                     No medicines found
                   </td>
@@ -419,10 +491,13 @@ const Medicines = () => {
                   onMouseEnter={e => e.currentTarget.style.background = "#f8faff"}
                   onMouseLeave={e => e.currentTarget.style.background = "white"}
                 >
+                  {/* Medicine Name */}
                   <td style={{ padding: "13px 16px" }}>
                     <p style={{ fontWeight: 600, fontSize: "0.875rem", color: "#0f172a" }}>{m.name}</p>
                     <p style={{ fontSize: "0.72rem", color: "#94a3b8", marginTop: "2px" }}>{m.genericName}</p>
                   </td>
+
+                  {/* Category */}
                   <td style={{ padding: "13px 16px" }}>
                     <span style={{
                       background: "#eff6ff", color: "#2563eb",
@@ -432,12 +507,18 @@ const Medicines = () => {
                       {m.category}
                     </span>
                   </td>
+
+                  {/* Manufacturer */}
                   <td style={{ padding: "13px 16px", fontSize: "0.85rem", color: "#374151" }}>
                     {m.manufacturer}
                   </td>
+
+                  {/* Price */}
                   <td style={{ padding: "13px 16px", fontSize: "0.875rem", fontWeight: 700, color: "#0f172a" }}>
                     ৳{m.price}
                   </td>
+
+                  {/* Stock */}
                   <td style={{ padding: "13px 16px" }}>
                     <span style={{
                       fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: "1rem",
@@ -451,9 +532,33 @@ const Medicines = () => {
                       </span>
                     )}
                   </td>
+
+                  {/* Location (NEW COLUMN) */}
+                  <td style={{ padding: "13px 16px" }}>
+                    {m.location?.row || m.location?.column ? (
+                      <div style={{
+                        display: "inline-flex", alignItems: "center", gap: "4px",
+                        background: "#f0f9ff", border: "1px solid #bae6fd",
+                        borderRadius: "8px", padding: "4px 10px",
+                      }}>
+                        <MapPin size={11} color="#0284c7" />
+                        <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#0284c7" }}>
+                          {m.location?.row ? `R${m.location.row}` : ""}
+                          {m.location?.row && m.location?.column ? "-" : ""}
+                          {m.location?.column ? `C${m.location.column}` : ""}
+                        </span>
+                      </div>
+                    ) : (
+                      <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>—</span>
+                    )}
+                  </td>
+
+                  {/* Expiry */}
                   <td style={{ padding: "13px 16px", fontSize: "0.8rem", color: "#64748b" }}>
                     {new Date(m.expiryDate).toLocaleDateString()}
                   </td>
+
+                  {/* Type */}
                   <td style={{ padding: "13px 16px" }}>
                     <span style={{
                       fontSize: "0.72rem", fontWeight: 600,
@@ -464,10 +569,11 @@ const Medicines = () => {
                       {m.requiresPrescription ? "Rx" : "OTC"}
                     </span>
                   </td>
+
+                  {/* Actions */}
                   {user?.role === "admin" && (
                     <td style={{ padding: "13px 16px" }}>
                       <div style={{ display: "flex", gap: "6px" }}>
-                        {/* Edit Button */}
                         <button
                           onClick={() => handleEdit(m)}
                           style={{
@@ -482,8 +588,6 @@ const Medicines = () => {
                         >
                           <Pencil size={14} />
                         </button>
-
-                        {/* Delete Button */}
                         <button
                           onClick={() => handleDelete(m._id)}
                           style={{

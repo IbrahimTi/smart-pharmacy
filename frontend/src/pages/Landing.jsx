@@ -25,11 +25,7 @@ const ShebaLanding = () => {
     { value: "24/7", label: "Emergency Service" },
   ];
 
-  const teamMembers = [
-    { name: "Dr. Ahmed Hossain", role: "Chief Pharmacist", initial: "AH" },
-    { name: "Fatema Begum", role: "Senior Pharmacist", initial: "FB" },
-    { name: "Karim Rahman", role: "Inventory Manager", initial: "KR" },
-  ];
+  
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#f8fafc", minHeight: "100vh" }}>
@@ -465,50 +461,7 @@ const ShebaLanding = () => {
               ))}
             </div>
 
-            {/* Right — Team */}
-            <div>
-              <h3 style={{
-                fontFamily: "'Sora', sans-serif", fontSize: "1.1rem",
-                fontWeight: 700, color: "#0f172a", marginBottom: "20px",
-              }}>
-                Our Team
-              </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                {teamMembers.map((member, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      display: "flex", alignItems: "center", gap: "14px",
-                      padding: "16px", borderRadius: "12px",
-                      border: "1px solid #e2e8f0", background: "#f8fafc",
-                      transition: "all 0.2s ease",
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.background = "white"; e.currentTarget.style.boxShadow = "0 4px 15px rgba(37,99,235,0.08)"; e.currentTarget.style.borderColor = "rgba(37,99,235,0.2)"; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = "#f8fafc"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#e2e8f0"; }}
-                  >
-                    <div style={{
-                      width: "48px", height: "48px",
-                      background: "linear-gradient(135deg, #2563eb, #0ea5e9)",
-                      borderRadius: "12px", flexShrink: 0,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontFamily: "'Sora', sans-serif", color: "white",
-                      fontWeight: 700, fontSize: "1rem",
-                      boxShadow: "0 4px 12px rgba(37,99,235,0.25)",
-                    }}>
-                      {member.initial}
-                    </div>
-                    <div>
-                      <p style={{ fontWeight: 700, color: "#0f172a", fontSize: "0.9rem" }}>
-                        {member.name}
-                      </p>
-                      <p style={{ color: "#64748b", fontSize: "0.8rem", marginTop: "2px" }}>
-                        {member.role}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+           
           </div>
         </div>
       </section>

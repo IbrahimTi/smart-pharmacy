@@ -61,7 +61,7 @@ const Login = () => {
             <Pill size={18} color="white" />
           </div>
           <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "0.95rem", color: "#0f172a" }}>
-            Smart Pharmacy
+            Smart Pharmacy 
           </span>
         </div>
         <button
@@ -138,7 +138,7 @@ const Login = () => {
                 </label>
                 <input
                   type="email"
-                  placeholder="admin@pharmacy.com"
+                  placeholder=""
                   value={adminForm.email}
                   onChange={e => setAdminForm({ ...adminForm, email: e.target.value })}
                   style={inputStyle}
@@ -197,15 +197,7 @@ const Login = () => {
               </button>
             </div>
 
-            <div style={{
-              marginTop: "20px", padding: "12px",
-              background: "#eff6ff", borderRadius: "8px",
-              border: "1px solid #bfdbfe",
-            }}>
-              <p style={{ fontSize: "0.75rem", color: "#1d4ed8", fontWeight: 500 }}>
-                admin@pharmacy.com / admin123
-              </p>
-            </div>
+     
           </div>
 
           {/* STAFF PANEL */}
@@ -233,7 +225,7 @@ const Login = () => {
                   Staff Login
                 </h2>
                 <p style={{ color: "#64748b", fontSize: "0.8rem", marginTop: "2px" }}>
-                  Pharmacist & Salesman
+                   Salesman
                 </p>
               </div>
             </div>
@@ -245,7 +237,7 @@ const Login = () => {
                 </label>
                 <input
                   type="email"
-                  placeholder="pharmacist@pharmacy.com"
+                  placeholder=""
                   value={staffForm.email}
                   onChange={e => setStaffForm({ ...staffForm, email: e.target.value })}
                   style={inputStyle}
@@ -304,15 +296,7 @@ const Login = () => {
               </button>
             </div>
 
-            <div style={{
-              marginTop: "20px", padding: "12px",
-              background: "#f0fdf4", borderRadius: "8px",
-              border: "1px solid #bbf7d0",
-            }}>
-              <p style={{ fontSize: "0.75rem", color: "#15803d", fontWeight: 500 }}>
-                pharmacist@pharmacy.com / pharma123
-              </p>
-            </div>
+            
           </div>
         </div>
 

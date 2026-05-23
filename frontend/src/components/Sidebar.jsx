@@ -18,7 +18,6 @@ const Sidebar = () => {
     { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
     { to: "/medicines", icon: Pill, label: "Medicines" },
     { to: "/sales", icon: ShoppingCart, label: "Sales" },
-    { to: "/prescriptions", icon: FileText, label: "Prescriptions" },
     { to: "/customers", icon: Users, label: "Customers" },
   ];
 
