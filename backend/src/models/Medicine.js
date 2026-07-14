@@ -60,7 +60,18 @@ const medicineSchema = new mongoose.Schema(
     manufactureDate: {
       type: Date,
     },
-
+location: {
+  row: {
+    type: String,
+    trim: true,
+    default: "",
+  },
+  column: {
+    type: String,
+    trim: true,
+    default: "",
+  },
+},
     // Extra Details
     description: {
       type: String,
